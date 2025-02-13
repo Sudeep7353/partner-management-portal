@@ -2,9 +2,9 @@ name: "CodeQL Advanced"
 
 on:
   push:
-    branches: [ "mydev" ]
+    branches: [ "main", "mydev" ] # Ensuring it runs on the default branch
   pull_request:
-    branches: [ "mydev" ]
+    branches: [ "main", "mydev" ]
   schedule:
     - cron: '17 2 * * 6'
 
@@ -14,8 +14,8 @@ jobs:
 
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
-      security-events: write
-      packages: read
+      security-events: write  # Required to upload SARIF results
+      packages: read          # Required to fetch internal/private CodeQL packs
       actions: read
       contents: read
 
@@ -23,38 +23,37 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - language: java-kotlin
-          build-mode: none
-        - language: javascript-typescript
-          build-mode: none
+          - language: java-kotlin
+            build-mode: none # Change to 'autobuild' or 'manual' to analyze Kotlin
+          - language: javascript-typescript
+            build-mode: none
+          # Supported languages: 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        build-mode: ${{ matrix.build-mode }}
-        queries: +security-and-quality
-        config-file: ./.github/codeql-config.yml
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
 
-    - if: matrix.build-mode == 'manual'
-      shell: bash
-      run: |
-        echo 'Replace this with actual build commands'
-        exit 1
+      - if: matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          echo 'Manual build mode detected. Replace this step with actual build commands.'
+          exit 1
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
 
-    - name: Upload CodeQL Analysis Results
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: results.sarif
+      - name: Debug SARIF File
+        run: ls -l results.sarif && cat results.sarif || echo "No SARIF file found."
 
-    - name: Debug SARIF Upload
-      run: ls -l results.sarif && cat results.sarif
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
