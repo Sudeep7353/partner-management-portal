@@ -37,7 +37,7 @@ function ViewCertificateDetails() {
 
     const onClickDownload = (certificateId) => {
         downloadCaCertificate(HttpService, certificateId, viewCertPageHeaders.certType, setErrorCode, setErrorMsg, errorMsg, setSuccessMsg, t );
-    };
+    }; 
 
     const moveBackToList = () => {
         navigate(viewCertPageHeaders.backLink);
