@@ -10,7 +10,7 @@ function IntermediateCertificatesList() {
       breadcrumb: 'intermediateCertificateList.subTitle',
       backLink: '/partnermanagement/admin/certificates/intermediate-ca-certificate-list'
     }
-    localStorage.setItem('uploadCertificateAttributes', JSON.stringify(requiredData));
+    localStorage.setItem('oooo', JSON.stringify(requiredData));
   };
 
   const viewIntermediateCertificateDetails = (selectedCertificateData) => {

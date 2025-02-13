@@ -9,7 +9,7 @@ function RootCertificatesList() {
             breadcrumb: 'rootCertificateList.subTitle',
             backLink: '/partnermanagement/admin/certificates/root-ca-certificate-list'
         }
-        localStorage.setItem('uploadCertificateAttributes', JSON.stringify(requiredData));
+        localStorage.setItem('abc', JSON.stringify(requiredData));
     };
 
     const viewRootCertificateDetails = (selectedCertificateData) => {
