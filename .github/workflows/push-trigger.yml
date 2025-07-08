@@ -11,7 +11,7 @@ on:
     branches:
       - '!release-branch'
       - release*
-      - master
+      - maste
       - 1.0.*
       - develop*
       - 1.1.*
