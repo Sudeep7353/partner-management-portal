@@ -17,6 +17,7 @@ on:
       - 1.1.*
       - MOSIP*
       - 1.2.*
+      - mytest
 
 jobs:
   build-maven-pmp-ui:
