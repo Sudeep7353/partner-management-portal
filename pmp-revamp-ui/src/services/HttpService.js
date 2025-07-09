@@ -26,7 +26,7 @@ export const setupResponseInterceptor = (navigate) => {
           "address": userData.addressTest,
           "phoneNumber": userData.phoneNumber,
           "orgName": userData.organizationName,
-          "partnerType": userData.partnerType,
+          "partnerType": userData.partnerType, 
           "langCode": userData.locale ? userData.locale : 'eng',
           "roles": resp.role
         };
